@@ -573,9 +573,6 @@ let productos = [
 
     
 ]
-let lineaEcono =["Chevrolet", "KIA","Renault"]
-let lineaMedia=["Nissan", "Volkswagen","Ford","Mazda","Hyundai","Citroen","Jeep"]
-let lineaLujo=["Audi","Toyota"]
 let impSel=""
 function liquidar (seleccion){
     if (opcion===1) {
@@ -629,30 +626,33 @@ function liquidar (seleccion){
         marca:le.marca,
         precio:le.precio,
         codigo:le.codigo,
-        year: le.year
+        year: le.year,
+        kilometraje: le.kilometraje
     }
     })
     // console.log(mosSel) console.log de prueba para ver resultados de la función .map
     mosSel.forEach((le)=>
-    impSel=impSel+mosSel.indexOf(le)+". "+le.marca+" "+le.nombre+" del año "+le.year+" Con precio: "+le.precio+"\n"
+    impSel=impSel+mosSel.indexOf(le)+". "+le.marca+" "+le.nombre+" año "+le.year+" | $"+le.precio+" | "+le.kilometraje+" Kms"+"\n"
     )
     let selVehi=Number(prompt("Los vehículos encontrados fueron:\n\n"+impSel+"\n\nPor favor ingrese el numero del vehículo del cual desea obtener más información"))
     let buscar = productos.find((le)=>le.codigo===mosSel[selVehi].codigo)
     let opComprar=Number(prompt("A Continuación se muestran los detalles del vehículo escogido:\n\nNombre: "+buscar.marca+" "+buscar.nombre+"\nColor: "+buscar.color+"\nKilometraje: "+buscar.kilometraje+" Km"+"\nPrecio: $"+buscar.precio+"\nTransmisión: "+buscar.transmision+"\nAño de fabricación: "+buscar.year+"\n\nPor favor ingresa 1 si quieres comprar este vehíchulo o cualquier otro botón para reiniciar la búsqueda de tu auto soñado"))
+        
     if (opComprar===1) {
-        alert("Felicitaciones por tu compra!\n\nUno de nuestros asesores se contactará contigo para seguir el proceso documental de la compra, recuerda que por seguridad el agente debe indicarte el código "+buscar.codigo+" para estar seguros de que te comunicas con alguien de nuestra agencia.\n\nPor favor no brindar datos personales si el código es diferente o no lo facilitan en la llamada")
+            alert("Felicitaciones por tu compra!\n\nUno de nuestros asesores se contactará contigo para seguir el proceso documental de la compra, recuerda que por seguridad el agente debe indicarte el código "+buscar.codigo+" para estar seguros de que te comunicas con alguien de nuestra agencia.\n\nPor favor no brindar datos personales si el código es diferente o no lo facilitan en la llamada")
+        }
+
     }
-}
 
 // PRESENTACION DE PROGRAMA Y PRIMEROS MENUS
 
 alert("Bienvenid@ a CarAssist\n\nTu asistente virtual para la compra de vehículos usados!")
-let opcion=Number(prompt("Por favor escriba el número según la opción que desee realizar:\n\n1. Comprar vehículo según precio\n2. Comprar vehículo según su marca\n3. Comprar vehículo según su antiguedad\n4. Comprar vehículo según su kilometraje\n5. Usar nuestro asistente inteligente de compra de vehículo"))
+let opcion=Number(prompt("Por favor escriba el número según la opción que desee realizar:\n\n1. Comprar vehículo según precio\n2. Comprar vehículo según su marca\n3. Comprar vehículo según su antiguedad\n4. Comprar vehículo según su kilometraje"))
 
 if (opcion===1) {
     let presupuesto=Number(prompt("Vale, escojamos su vehículo acorde al precio!\n\n Tenemos vehículos desde COP $80000000 hasta los COP $120000000\n\nA continuación por favor ingrese su presupuesto máximo para la compra de su vehículo sin simbolos, comas o puntos."))
 
-    let selPre=productos.filter((el)=>el.precio<presupuesto)
+    let selPre=productos.filter((el)=>el.precio<=presupuesto)
     if (selPre.length<1) {
         alert("No se encontraron vehículos acorde a su presupuesto.\n\nPor favor recargue la página y vuelva a intentarlo")
     } else {
@@ -674,21 +674,19 @@ if (opcion===3) {
 
     let selYear=productos.filter((el)=>el.year>=year2)
     if (selYear.length<1) {
-        alert("No se encontraron vehículos acorde a su presupuesto.\n\nPor favor recargue la página y vuelva a intentarlo")
+        alert("No se encontraron vehículos acorde al año de su selección.\n\nPor favor recargue la página y vuelva a intentarlo")
     } else {
         liquidar(selYear)
     }
 }
 if (opcion===4) {
-    let kilom=Number(prompt("Vale, escojamos su vehículo acorde a su antiguedad!\n\n Tenemos vehículos desde el año 2005 hasta el año 2021\n\nA continuación por favor ingrese el año desde el cual le interesa ver vehículos (se mostrarán vehículos desde el año seleccionado hasta los más nuevos"))
+    let kilom=Number(prompt("Vale, escojamos su vehículo acorde al kilometraje!!\n\n Tenemos vehículos que tienen desde 70.000 hasta 120.000 Kms\n\nA continuación por favor ingrese el kilometraje desde el cual le gustaría ver opciones (ingresar kilometraje sin simbolos, letras, comas o puntos)\n\nNOTA: se mostrarán los vehículos con el kilometraje deseado y menores"))
 
-    let selKilom=productos.filter((el)=>el.kilometraje>=kilom)
+    let selKilom=productos.filter((el)=>el.kilometraje<=kilom)
     if (selKilom.length<1) {
-        alert("No se encontraron vehículos acorde a su presupuesto.\n\nPor favor recargue la página y vuelva a intentarlo")
+        alert("No se encontraron vehículos con el kilometraje ingresado o menores.\n\nPor favor recargue la página y vuelva a intentarlo")
     } else {
         liquidar(selKilom)
     }
 }
-if (opcion===5) {
-    
-}
+alert("Gracias por usar CarAssist en el proceso de compra de su nuevo vehículo!")
