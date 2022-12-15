@@ -576,96 +576,78 @@ let productos = [
 let lineaEcono =["Chevrolet", "KIA","Renault"]
 let lineaMedia=["Nissan", "Volkswagen","Ford","Mazda","Hyundai","Citroen","Jeep"]
 let lineaLujo=["Audi","Toyota"]
-let impuesto=[
-    {
-        year: 2005,
-        impuesto:0.19,
-    },
-    {
-        year:2006,
-        impuesto:0.18,
-    },
-    {
-        year:2007,
-        impuesto:0.17,
-    },
-    {
-        year:2008,
-        impuesto:0.16,
-    },
-    {
-        year:2009,
-        impuesto:0.15,
-    },
-    {
-        year:2010,
-        impuesto:0.14,
-    },
-    {
-        year:2011,
-        impuesto:0.13,
-    },
-    {
-        year:2012,
-        impuesto:0.12,
-    },
-    {
-        year:2013,
-        impuesto:0.11,
-    },
-    {
-        year:2014,
-        impuesto:0.10,
-    },
-    {
-        year:2015,
-        impuesto:0.09,
-    },
-    {
-        year:2016,
-        impuesto:0.08,
-    },
-    {
-        year:2017,
-        impuesto:0.07,
-    },
-    {
-        year:2018,
-        impuesto:0.06,
-    },
-    {
-        year:2019,
-        impuesto:0.05,
-    },
-    {
-        year:2020,
-        impuesto:0.04,
-    }
-]
-let descuento=[
-    {
-        marca:"Chevrolet",
-        descuento:0.10,
-    },
-    {
-        marca:"KIA",
-        descuento:0.05,
-    },
-    {
-        marca:"Renault",
-        descuento:0.09,
-    },
-    {
-        marca:"Hyundai",
-        descuento:0.12,
-    }
-]
 let impSel=""
+function liquidar (seleccion){
+    if (opcion===1) {
+        seleccion.sort((a,b)=>{
+            if (a.precio>b.precio) {
+                return 1
+            }
+            if (a.precio<b.precio) {
+                return -1
+            }
+            return 0
+        })
+    }
+    if (opcion===2) {
+        seleccion.sort((a,b)=>{
+            if (a.nombre>b.nombre) {
+                return 1
+            }
+            if (a.nombre<b.nombre) {
+                return -1
+            }
+            return 0
+        })
+    }
+    if (opcion===3) {
+        seleccion.sort((a,b)=>{
+            if (a.year>b.year) {
+                return 1
+            }
+            if (a.year<b.year) {
+                return -1
+            }
+            return 0
+        })
+    }
+    if (opcion===4) {
+        seleccion.sort((a,b)=>{
+            if (a.kilometraje>b.kilometraje) {
+                return 1
+            }
+            if (a.kilometraje<b.kilometraje) {
+                return -1
+            }
+            return 0
+        })
+    }
+    seleccion.sort((a,b)=>a-b)
+    let mosSel=seleccion.map((le)=>{
+    return{
+        nombre:le.nombre,
+        marca:le.marca,
+        precio:le.precio,
+        codigo:le.codigo,
+        year: le.year
+    }
+    })
+    // console.log(mosSel) console.log de prueba para ver resultados de la función .map
+    mosSel.forEach((le)=>
+    impSel=impSel+mosSel.indexOf(le)+". "+le.marca+" "+le.nombre+" del año "+le.year+" Con precio: "+le.precio+"\n"
+    )
+    let selVehi=Number(prompt("Los vehículos encontrados fueron:\n\n"+impSel+"\n\nPor favor ingrese el numero del vehículo del cual desea obtener más información"))
+    let buscar = productos.find((le)=>le.codigo===mosSel[selVehi].codigo)
+    let opComprar=Number(prompt("A Continuación se muestran los detalles del vehículo escogido:\n\nNombre: "+buscar.marca+" "+buscar.nombre+"\nColor: "+buscar.color+"\nKilometraje: "+buscar.kilometraje+" Km"+"\nPrecio: $"+buscar.precio+"\nTransmisión: "+buscar.transmision+"\nAño de fabricación: "+buscar.year+"\n\nPor favor ingresa 1 si quieres comprar este vehíchulo o cualquier otro botón para reiniciar la búsqueda de tu auto soñado"))
+    if (opComprar===1) {
+        alert("Felicitaciones por tu compra!\n\nUno de nuestros asesores se contactará contigo para seguir el proceso documental de la compra, recuerda que por seguridad el agente debe indicarte el código "+buscar.codigo+" para estar seguros de que te comunicas con alguien de nuestra agencia.\n\nPor favor no brindar datos personales si el código es diferente o no lo facilitan en la llamada")
+    }
+}
 
 // PRESENTACION DE PROGRAMA Y PRIMEROS MENUS
 
 alert("Bienvenid@ a CarAssist\n\nTu asistente virtual para la compra de vehículos usados!")
-let opcion=Number(prompt("Por favor escriba el número según la opción que desee realizar:\n\n1. Comprar vehículo según precio\n2. Comprar vehículo según su marca\n3. Comprar vehículo según su antiguedad\n4. Comprar vehículo segín su kilometraje\n5. Usar nuestro asistente inteligente de compra de vehículo"))
+let opcion=Number(prompt("Por favor escriba el número según la opción que desee realizar:\n\n1. Comprar vehículo según precio\n2. Comprar vehículo según su marca\n3. Comprar vehículo según su antiguedad\n4. Comprar vehículo según su kilometraje\n5. Usar nuestro asistente inteligente de compra de vehículo"))
 
 if (opcion===1) {
     let presupuesto=Number(prompt("Vale, escojamos su vehículo acorde al precio!\n\n Tenemos vehículos desde COP $80000000 hasta los COP $120000000\n\nA continuación por favor ingrese su presupuesto máximo para la compra de su vehículo sin simbolos, comas o puntos."))
@@ -674,32 +656,38 @@ if (opcion===1) {
     if (selPre.length<1) {
         alert("No se encontraron vehículos acorde a su presupuesto.\n\nPor favor recargue la página y vuelva a intentarlo")
     } else {
-        selPre.sort((a,b)=>a-b)
-        let mosSel=selPre.map((le)=>{
-        return{
-            nombre:le.nombre,
-            marca:le.marca,
-            precio:le.precio,
-            codigo:le.codigo
-        }
-        })
-        // console.log(mosSel) console.log de prueba para ver resultados de la función .map
-        mosSel.forEach((le)=>
-        impSel=impSel+mosSel.indexOf(le)+". "+le.marca+" "+le.nombre+" Con precio: "+le.precio+"\n"
-        )
-        let selVehi=Number(prompt("Los vehículos encontrados fueron:\n\n"+impSel+"\n\nPor favor ingrese el numero del vehículo del cual desea obtener más información"))
-        let buscar = mosSel[selVehi].codigo
-        console.log(productos.find((le)=>le.codigo===buscar))
+        liquidar(selPre)
     }
 }
 if (opcion===2) {
-    
+    let marca=prompt("Vale, escojamos su vehículo acorde a la marca!\nTenemos vehículos de las siguientes marcas:\n\nChevrolet\nNissan\nKIA\nAudi\nVolkswagen\nToyota\nFord\nRenault\nMazda\nHyundai\nCitroen\nJeep\n\nA continuación por favor escriba la marca de su interés")
+
+    let selMarca=productos.filter((el)=>el.marca==marca)
+    if (selMarca.length<1) {
+        alert("No se encontraron vehículos acorde a su marca favorita.\n\nPor favor recargue la página y vuelva a intentarlo")
+    } else {
+        liquidar(selMarca)
+    }
 }
 if (opcion===3) {
-    
+    let year2=Number(prompt("Vale, escojamos su vehículo acorde a su antiguedad!\n\n Tenemos vehículos desde el año 2005 hasta el año 2021\n\nA continuación por favor ingrese el año desde el cual le interesa ver vehículos (se mostrarán vehículos desde el año seleccionado hasta los más nuevos"))
+
+    let selYear=productos.filter((el)=>el.year>=year2)
+    if (selYear.length<1) {
+        alert("No se encontraron vehículos acorde a su presupuesto.\n\nPor favor recargue la página y vuelva a intentarlo")
+    } else {
+        liquidar(selYear)
+    }
 }
 if (opcion===4) {
-    
+    let kilom=Number(prompt("Vale, escojamos su vehículo acorde a su antiguedad!\n\n Tenemos vehículos desde el año 2005 hasta el año 2021\n\nA continuación por favor ingrese el año desde el cual le interesa ver vehículos (se mostrarán vehículos desde el año seleccionado hasta los más nuevos"))
+
+    let selKilom=productos.filter((el)=>el.kilometraje>=kilom)
+    if (selKilom.length<1) {
+        alert("No se encontraron vehículos acorde a su presupuesto.\n\nPor favor recargue la página y vuelva a intentarlo")
+    } else {
+        liquidar(selKilom)
+    }
 }
 if (opcion===5) {
     
